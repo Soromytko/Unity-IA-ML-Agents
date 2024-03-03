@@ -32,6 +32,7 @@ public class Button : DoorActivator
             onActivate.Invoke();
         }
     }
+    
     void OnCollisionExit(Collision collision) {
         collisionsCount--;
         if (collisionsCount <= 0 && state == ButtonStates.Pressed) {

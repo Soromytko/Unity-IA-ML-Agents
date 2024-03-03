@@ -1,16 +1,18 @@
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using UnityEngine.Events;
+using Unity.MLAgents.Sensors;
 
 public class AgentPusher : Agent
 {
-    float m_LateralSpeed = 0.15f;
-    float m_ForwardSpeed = 0.5f;
+    public UnityEvent WallCollided;
 
+    float m_LateralSpeed = 0.15f * 2;
+    float m_ForwardSpeed = 0.5f * 2;
 
     [HideInInspector]
     public Rigidbody agentRb;
-
 
     public override void Initialize()
     {
@@ -18,11 +20,15 @@ public class AgentPusher : Agent
         agentRb.maxAngularVelocity = 500;
     }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        //sensor.AddObservation(transform.localPosition);
+    }
+
     public void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
-
 
         var forwardAxis = act[0];
         var rightAxis = act[1];
@@ -101,6 +107,16 @@ public class AgentPusher : Agent
 
     public override void OnEpisodeBegin()
     {
+        AddReward(-1f / MaxStep);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        return;
+        if (collision.gameObject.CompareTag("wall")) {
+            // AddReward(-1f);
+            WallCollided?.Invoke();
+        }
     }
 
 }

@@ -44,7 +44,7 @@ public class Door : MonoBehaviour
 
     void Open()
     {
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
         onDoorOpen.Invoke();
     }
 }

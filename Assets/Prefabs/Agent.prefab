@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1630552956286426362}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0027599335, y: 0.5, z: 2.450233}
+  m_LocalPosition: {x: 2.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -133,7 +133,9 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  doorObs: {fileID: 0}
+  WallCollided:
+    m_PersistentCalls:
+      m_Calls: []
   agentRb: {fileID: 0}
 --- !u!114 &3600611686303545658
 MonoBehaviour:
@@ -451,14 +453,16 @@ MonoBehaviour:
   m_DetectableTags:
   - button
   - block
+  - wall
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxColliderBufferSize: 500
   m_InitialColliderBufferSize: 4
   m_DebugColors:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0.6981132, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.94482327, a: 1}
   m_GizmoYOffset: 0
   m_ShowGizmos: 0
   m_CompressionType: 1
