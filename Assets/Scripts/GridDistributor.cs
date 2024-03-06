@@ -45,6 +45,7 @@ public class GridedDistributor : MonoBehaviour
             var item = prefabsPool[i];
             item.transform.localPosition = gridToCoords(gridPoint);
             item.SetActive(true);
+            item.transform.localRotation = Quaternion.identity;
         }
         for (var i = countItems; i < oldActive; i++)
             prefabsPool[i].SetActive(false);

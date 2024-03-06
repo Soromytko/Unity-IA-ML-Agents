@@ -4,12 +4,22 @@ using Unity.MLAgents.Actuators;
 using UnityEngine.Events;
 using Unity.MLAgents.Sensors;
 
+enum ActionType {
+    None,
+    MoveLeft,
+    MoveRight,
+    MoveBack,
+    MoveForward,
+    RotateRight,
+    RotateLeft,
+}
+
 public class AgentPusher : Agent
 {
     public UnityEvent WallCollided;
 
-    float m_LateralSpeed = 0.15f * 2;
-    float m_ForwardSpeed = 0.5f * 2;
+    float m_LateralSpeed = 0.1f;
+    float m_ForwardSpeed = 0.75f;
 
     [HideInInspector]
     public Rigidbody agentRb;
@@ -30,85 +40,78 @@ public class AgentPusher : Agent
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var forwardAxis = act[0];
-        var rightAxis = act[1];
-        var rotateAxis = act[2];
+        ActionType action = (ActionType)act[0];
 
-        switch (forwardAxis)
+        switch (action)
         {
-            case 1:
-                dirToGo = transform.forward * m_ForwardSpeed;
-                break;
-            case 2:
-                dirToGo = transform.forward * -m_ForwardSpeed;
-                break;
-        }
-
-        switch (rightAxis)
-        {
-            case 1:
-                dirToGo = transform.right * m_LateralSpeed;
-                break;
-            case 2:
+            case ActionType.MoveLeft:
                 dirToGo = transform.right * -m_LateralSpeed;
                 break;
-        }
-
-        switch (rotateAxis)
-        {
-            case 1:
+            case ActionType.MoveRight:
+                dirToGo = transform.right * m_LateralSpeed;
+                break;
+            case ActionType.MoveBack:
+                dirToGo = transform.forward * -m_ForwardSpeed;
+                break;
+            case ActionType.MoveForward:
+                dirToGo = transform.forward * m_ForwardSpeed;
+                break;
+            case ActionType.RotateLeft:
                 rotateDir = transform.up * -1f;
                 break;
-            case 2:
+            case ActionType.RotateRight:
                 rotateDir = transform.up * 1f;
                 break;
         }
 
-        transform.Rotate(rotateDir, Time.deltaTime * 100f);
-        agentRb.AddForce(dirToGo, ForceMode.VelocityChange);
+        transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
+        agentRb.AddForce(dirToGo * 3, ForceMode.VelocityChange);
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         MoveAgent(actionBuffers.DiscreteActions);
+        AddReward(-1f / MaxStep);
+
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discreteActionsOut = actionsOut.DiscreteActions;
+        discreteActionsOut[0] = (int)ActionType.None;
+        //right
+        // if (Input.GetKey(KeyCode.A))
+        // {
+        //     discreteActionsOut[0] = (int)ActionType.MoveLeft;
+        // }
+        // if (Input.GetKey(KeyCode.D))
+        // {
+        //     discreteActionsOut[0] = (int)ActionType.MoveRight;
+        // }
         //forward
         if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = 1;
+            discreteActionsOut[0] = (int)ActionType.MoveForward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = 2;
+            discreteActionsOut[0] = (int)ActionType.MoveBack;
         }
         //rotate
         if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[2] = 1;
+            discreteActionsOut[0] = (int)ActionType.RotateLeft;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[2] = 2;
-        }
-        //right
-        if (Input.GetKey(KeyCode.E))
-        {
-            discreteActionsOut[1] = 1;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            discreteActionsOut[1] = 2;
+            discreteActionsOut[0] = (int)ActionType.RotateRight;
         }
     }
 
-    public override void OnEpisodeBegin()
-    {
-        AddReward(-1f / MaxStep);
-    }
+    // public override void OnEpisodeBegin()
+    // {
+    //     AddReward(-1f / MaxStep);
+    // }
 
     private void OnCollisionEnter(Collision collision)
     {

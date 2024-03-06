@@ -25,6 +25,10 @@ public class Button : DoorActivator
     int collisionsCount = 0;
 
     void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("agent")) {
+            return;
+        }
+
         collisionsCount++;
         if (state == ButtonStates.Unpressed) {
             state = ButtonStates.Pressed;
@@ -34,6 +38,10 @@ public class Button : DoorActivator
     }
     
     void OnCollisionExit(Collision collision) {
+        if (collision.gameObject.CompareTag("agent")) {
+            return;
+        }
+
         collisionsCount--;
         if (collisionsCount <= 0 && state == ButtonStates.Pressed) {
             state = ButtonStates.Unpressed;

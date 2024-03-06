@@ -194,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8106415976343903598, guid: d137d5a0b93d76041974d3045ac6628f, type: 3}
   size: {x: 10, y: 10}
-  count: {x: 6, y: 6}
+  count: {x: 2, y: 2}
   gizmoColor: {r: 0.99215686, g: 0.032502003, b: 0.007843125, a: 0.40392157}
   prefabsPool: []
 --- !u!114 &3552187568563327776
@@ -210,8 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 9087514486391734836, guid: 662be08c356cae944a815e1de2c7de42, type: 3}
-  size: {x: 8, y: 8}
-  count: {x: 5, y: 5}
+  size: {x: 4.63, y: 4.7}
+  count: {x: 1, y: 1}
   gizmoColor: {r: 0.8392157, g: 0.8041516, b: 0.29019612, a: 0.40392157}
   prefabsPool: []
 --- !u!114 &5643912208897456261

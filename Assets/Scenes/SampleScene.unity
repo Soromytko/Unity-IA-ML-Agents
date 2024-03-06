@@ -369,6 +369,10 @@ PrefabInstance:
       propertyPath: boxesOnEpisode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7090204463984454676, guid: 8af39614f7557054abca613639eee46f, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 9ca7f1acaad4b1a4186cd0ce1a5b83ac, type: 3}
     - target: {fileID: 7274001109662379989, guid: 8af39614f7557054abca613639eee46f, type: 3}
       propertyPath: m_Model
       value: 
